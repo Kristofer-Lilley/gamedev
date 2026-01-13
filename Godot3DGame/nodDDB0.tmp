@@ -1,0 +1,105 @@
+[gd_scene load_steps=12 format=3 uid="uid://drmvklo4qsjgf"]
+
+[ext_resource type="Script" path="res://CharacterBody3D.gd" id="1_2seeb"]
+[ext_resource type="Script" path="res://Camera3D.gd" id="1_xnxh6"]
+
+[sub_resource type="Environment" id="Environment_bxm80"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_aly0k"]
+size = Vector2(300, 300)
+
+[sub_resource type="Skin" id="Skin_nucsq"]
+
+[sub_resource type="GDScript" id="GDScript_g80y1"]
+script/source = "extends Camera3D
+
+
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta):
+	pass
+
+
+
+"
+
+[sub_resource type="GDScript" id="GDScript_adh67"]
+script/source = "extends DirectionalLight3D
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta):
+	_sunMovement()
+	##_sunBrightness(delta)
+	pass
+
+func _sunMovement():
+	var my_basis = Basis.IDENTITY
+	var angle = TAU / 360
+	##angle = angle / 0.01666666667
+	my_basis = my_basis.rotated(Vector3.FORWARD, angle)
+
+
+##func _sunBrightness(delta):
+	##var time_of_day = delta % 360
+	##time_of_day = time_of_day / 0.01666666667
+	## if 0 < time_of_day < 180:
+		##light_energy = 
+"
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hol2l"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_nlogo"]
+
+[sub_resource type="Skin" id="Skin_0ax6u"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_vy322"]
+
+[node name="Node3D" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_bxm80")
+
+[node name="Ground" type="MeshInstance3D" parent="."]
+transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 0, 0, 0)
+mesh = SubResource("PlaneMesh_aly0k")
+skin = SubResource("Skin_nucsq")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+fov = 90.0
+script = SubResource("GDScript_g80y1")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 100, 0)
+rotation_edit_mode = 2
+light_energy = 10.0
+shadow_enabled = true
+script = SubResource("GDScript_adh67")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.878084, 1.45703, -2.82471)
+material_override = SubResource("StandardMaterial3D_hol2l")
+mesh = SubResource("BoxMesh_nlogo")
+skin = SubResource("Skin_0ax6u")
+
+[node name="CharacterBody3D" type="CharacterBody3D" parent="."]
+script = ExtResource("1_2seeb")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_vy322")
+
+[node name="Camera3D" type="Camera3D" parent="CharacterBody3D"]
+script = ExtResource("1_xnxh6")
