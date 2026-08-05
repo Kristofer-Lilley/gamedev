@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://dn2fde424so5p"]
+
+[ext_resource type="PackedScene" uid="uid://cedphbjeupr8s" path="res://Dead_Tree.glb" id="1_blisy"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" unique_id=1726738037]
+
+[node name="Dead_Tree" parent="." unique_id=980434547 instance=ExtResource("1_blisy")]

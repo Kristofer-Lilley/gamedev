@@ -4,10 +4,11 @@ extends CharacterBody3D
 @onready var playercamera = $head/playercamera
 
 var current_speed = 5.0
-const walking_speed = 5.0
-const sprint_speed = 8.0 
+const walking_speed = 10.0
+const sprint_speed = 20.0 
 const crouching_speed = 3.0
 const jump_velocity = 4.5
+var gravity_enabled = false
 
 var lerp_speed = 10
 
@@ -17,6 +18,7 @@ var direction = Vector3.ZERO
 const mouse_sens = 0.1
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
+
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
 func _ready():
@@ -40,6 +42,7 @@ func _physics_process(delta):
 			current_speed = sprint_speed 
 		else:
 			current_speed = walking_speed
+	
 	
 	# Add the gravity.
 	if not is_on_floor():

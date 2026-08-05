@@ -1,8 +1,7 @@
-[gd_scene load_steps=8 format=3 uid="uid://drmvklo4qsjgf"]
+[gd_scene format=3 uid="uid://drmvklo4qsjgf"]
 
-[ext_resource type="Terrain3DMaterial" uid="uid://dve5ddbkoi3ao" path="res://new_terrain_3d_material.tres" id="1_1mvt5"]
-[ext_resource type="Terrain3DAssets" uid="uid://dal3jhw6241qg" path="res://demo/data/assets.tres" id="2_hpnfd"]
-[ext_resource type="Script" path="res://player.gd" id="4_to7r3"]
+[ext_resource type="Script" uid="uid://bdaut1ikgmj6u" path="res://Overworld/terrain_generator.gd" id="2_u1viw"]
+[ext_resource type="Script" uid="uid://b7vvh6yt2ylpn" path="res://player.gd" id="4_to7r3"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_8qlct"]
 sky_top_color = Color(0.0759319, 0.451615, 0.798572, 1)
@@ -18,59 +17,47 @@ sky_material = SubResource("ProceduralSkyMaterial_8qlct")
 
 [sub_resource type="Environment" id="Environment_c7pfn"]
 background_mode = 2
+background_energy_multiplier = 1.2
 sky = SubResource("Sky_ifi42")
-ambient_light_energy = 0.71
+ambient_light_energy = 0.0
 tonemap_mode = 2
-tonemap_exposure = 0.15
-tonemap_white = 1.59
+tonemap_exposure = 0.3
 glow_enabled = true
+glow_intensity = 0.0
+glow_strength = 0.0
 volumetric_fog_enabled = true
-volumetric_fog_density = 0.0736
+volumetric_fog_density = 0.0
 volumetric_fog_detail_spread = 1.17688
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_3usrj"]
 
-[node name="world" type="Node3D"]
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_u1viw"]
+noise_type = 0
+frequency = 0.0092
 
-[node name="stage" type="Node3D" parent="."]
+[node name="world" type="Node3D" unique_id=1671844726]
 
-[node name="Terrain3d" type="Terrain3D" parent="stage"]
-data_directory = "res://Overworld"
-material = ExtResource("1_1mvt5")
-assets = ExtResource("2_hpnfd")
-top_level = true
-metadata/_edit_lock_ = true
+[node name="env" type="Node3D" parent="." unique_id=1743139304]
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="stage"]
-
-[node name="env" type="Node3D" parent="."]
-
-[node name="WorldEnvironment" type="WorldEnvironment" parent="env"]
+[node name="WorldEnvironment" type="WorldEnvironment" parent="env" unique_id=2080207033]
 environment = SubResource("Environment_c7pfn")
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="env"]
-transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 0, 0)
-light_color = Color(0.978879, 0.988548, 0.961008, 1)
-light_energy = 0.4
-light_volumetric_fog_energy = 1.8
-shadow_enabled = true
-shadow_bias = 0.0
-shadow_blur = 7.29
-directional_shadow_max_distance = 34.0
-
-[node name="player" type="CharacterBody3D" parent="."]
+[node name="player" type="CharacterBody3D" parent="." unique_id=1648006381]
 script = ExtResource("4_to7r3")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="player"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="player" unique_id=829552103]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1, 0)
 shape = SubResource("CapsuleShape3D_3usrj")
+disabled = true
 
-[node name="head" type="Node3D" parent="player"]
+[node name="head" type="Node3D" parent="player" unique_id=496803538]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
 
-[node name="playercamera" type="Camera3D" parent="player/head"]
+[node name="playercamera" type="Camera3D" parent="player/head" unique_id=1922635617]
 
-[node name="OmniLight3D" type="OmniLight3D" parent="player"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.75, 1.75, 0)
-light_color = Color(1, 0.628, 0.38, 1)
-light_energy = 7.94
+[node name="TerrainGenerator" type="Node3D" parent="." unique_id=1031473408 node_paths=PackedStringArray("player")]
+script = ExtResource("2_u1viw")
+player = NodePath("../player")
+view_distance = 10
+chunk_height = 180.0
+noise = SubResource("FastNoiseLite_u1viw")

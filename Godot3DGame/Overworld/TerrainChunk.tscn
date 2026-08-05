@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://c10j28sk0nwua"]
+
+[ext_resource type="Script" uid="uid://bng3s4mf4bks6" path="res://Overworld/terrain_chunk.gd" id="1_hk387"]
+[ext_resource type="PackedScene" uid="uid://cedphbjeupr8s" path="res://Dead_Tree.glb" id="2_4acuo"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" unique_id=1764669163]
+script = ExtResource("1_hk387")
+tree_density = 6.0
+
+[node name="Dead_Tree" parent="." unique_id=980434547 instance=ExtResource("2_4acuo")]
